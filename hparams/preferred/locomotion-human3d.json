@@ -1,7 +1,7 @@
 {
     "Dir": {
-        "data_root": "data/locomotion",
-        "log_root": "results/locomotion"
+        "data_root": "data/human3d",
+        "log_root": "results/human3d"
     },
     "Glow" : {
         "hidden_channels": 512,
@@ -55,7 +55,7 @@
         "warm_start": ""
     },
     "Infer": {
-        "pre_trained": "results/locomotion/log_20210205_1509/checkpoints/trained.pkg"
+        "pre_trained": ""
     }
 }
 

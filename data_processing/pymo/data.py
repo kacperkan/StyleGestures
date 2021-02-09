@@ -1,29 +1,32 @@
 import numpy as np
 
-class Joint():
+
+class Joint:
     def __init__(self, name, parent=None, children=None):
         self.name = name
         self.parent = parent
         self.children = children
 
-class MocapData():
+
+class MocapData:
     def __init__(self):
         self.skeleton = {}
         self.values = None
         self.channel_names = []
         self.framerate = 0.0
-        self.root_name = ''
-    
+        self.root_name = ""
+
     def traverse(self, j=None):
         stack = [self.root_name]
         while stack:
             joint = stack.pop()
             yield joint
-            for c in self.skeleton[joint]['children']:
+            for c in self.skeleton[joint]["children"]:
                 stack.append(c)
 
     def clone(self):
         import copy
+
         new_data = MocapData()
         new_data.skeleton = copy.deepcopy(self.skeleton)
         new_data.values = copy.deepcopy(self.values)
@@ -33,21 +36,25 @@ class MocapData():
         return new_data
 
     def get_all_channels(self):
-        '''Returns all of the channels parsed from the file as a 2D numpy array'''
+        """Returns all of the channels parsed from the file as a 2D numpy array"""
 
         frames = [f[1] for f in self.values]
-        return np.asarray([[channel[2] for channel in frame] for frame in frames])
+        return np.asarray(
+            [[channel[2] for channel in frame] for frame in frames]
+        )
 
     def get_skeleton_tree(self):
         tree = []
-        root_key =  [j for j in self.skeleton if self.skeleton[j]['parent']==None][0]
-        
+        root_key = [
+            j for j in self.skeleton if self.skeleton[j]["parent"] == None
+        ][0]
+
         root_joint = Joint(root_key)
-    
+
     def get_empty_channels(self):
-        #TODO
+        # TODO
         pass
 
     def get_constant_channels(self):
-        #TODO
+        # TODO
         pass

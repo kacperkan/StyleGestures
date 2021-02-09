@@ -6,7 +6,7 @@ dependencies:
   - matplotlib
   - numpy
   - pytorch
-  - cudatoolkit=10.2
+  - cudatoolkit=11.2
   - scikit-learn
   - tensorboardx
   - tqdm
