@@ -79,9 +79,6 @@ class Generator(object):
             # sample from Moglow
             sampled = graph(z=None, cond=cond, eps_std=eps_std, reverse=True)
             sampled = sampled.cpu().numpy()[:, :, 0]
-            import ipdb
-
-            ipdb.set_trace()
 
             # store the sampled frame
             sampled_all[:, (i + seqlen), :] = sampled

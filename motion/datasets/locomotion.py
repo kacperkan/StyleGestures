@@ -245,6 +245,76 @@ class Human36m:
                 data_s[action] = seq
         self.data = data_f
 
+    def prepare_data(self):
+        self.data_file = os.path.join(self.data_dir, "data_3d_h36m.npz")
+        if self.is_test_run:
+            self.subjects_split = {"train": [1], "test": [1]}
+        else:
+            self.subjects_split = {"train": [1, 5, 6, 7, 8], "test": [9, 11]}
+        self.subjects = ["S%d" % x for x in self.subjects_split[self.mode]]
+        self.skeleton = Skeleton(
+            parents=[
+                -1,
+                0,
+                1,
+                2,
+                3,
+                4,
+                0,
+                6,
+                7,
+                8,
+                9,
+                0,
+                11,
+                12,
+                13,
+                14,
+                12,
+                16,
+                17,
+                18,
+                19,
+                20,
+                19,
+                22,
+                12,
+                24,
+                25,
+                26,
+                27,
+                28,
+                27,
+                30,
+            ],
+            joints_left=[6, 7, 8, 9, 10, 16, 17, 18, 19, 20, 21, 22, 23],
+            joints_right=[1, 2, 3, 4, 5, 24, 25, 26, 27, 28, 29, 30, 31],
+        )
+        self.removed_joints = {
+            4,
+            5,
+            9,
+            10,
+            11,
+            16,
+            20,
+            21,
+            22,
+            23,
+            24,
+            28,
+            29,
+            30,
+            31,
+        }
+        self.kept_joints = np.array(
+            [x for x in range(32) if x not in self.removed_joints]
+        )
+        self.skeleton.remove_joints(self.removed_joints)
+        self.skeleton._parents[11] = 8
+        self.skeleton._parents[14] = 8
+        self.process_data()
+
     def __init__(self, hparams, is_training):
 
         data_root = hparams.Dir.data_root
